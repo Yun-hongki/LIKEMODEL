@@ -1,11 +1,15 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.core.paginator import Paginator
 from .models import Blog
 from .forms import BlogForm
 
 
 def home(request):
     blogs = Blog.objects.all()
-    return render(request,'home.html',{'blogs':blogs})
+    paginator = Paginator(blogs, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'home.html',{'page_obj':page_obj})
 
 def detail(request, blog_id):
     blog = get_object_or_404(Blog, pk=blog_id)
@@ -16,8 +20,9 @@ def new(request):
 
 def create(request):
     new_blog = Blog()
-    new_blog.title = request.POST['title']
-    new_blog.content = request.POST['content']
+    new_blog.title = request.POST.get('title')
+    new_blog.content = request.POST.get('content')
+    new_blog.image = request.FILES.get('image')
     new_blog.save()
     return redirect('detail', new_blog.id)
     # return render(request, 'detail.html', {'blog':new_blog})
@@ -39,8 +44,9 @@ def edit(request, blog_id):
 
 def update(request, blog_id):
     old_blog = get_object_or_404(Blog, pk=blog_id)
-    old_blog.title = request.POST["title"]
-    old_blog.content = request.POST["content"]
+    old_blog.title = request.POST.get('title')
+    old_blog.content = request.POST.get('content')
+    old_blog.image = request.FILES.get('image')
     old_blog.save()
     return redirect('detail', old_blog.id)
 

@@ -1,0 +1,27 @@
+article{
+    width: 960px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.img_frame {
+    text-align: center;
+    padding: 2rem;
+}
+
+.bar_btn {
+    padding-top: 3rem;
+    width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: right;
+}
+
+.bar_btn a {
+    margin-left: 1rem;
+}
+

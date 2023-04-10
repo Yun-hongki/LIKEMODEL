@@ -1,11 +1,97 @@
-<h1>LIKELION 11 Blog Project</h1>
-<a href="{% url 'new' %}">새 글 작성하기</a>
-<div>
-    {% for blog in blogs %}
-    <a href="{%url 'detail' blog.id %}">
-        <h2>{{blog.title}}</h2>
-        <p>{{blog.summary}}</p>
-        <p>{{blog.created_at}}</p>
-    </a>
-    {% endfor %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Blog Homepage
+{% endblock title %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+<header aria-label="Page Header" class="bg-gray-50">
+    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <div class="text-center sm:text-left">
+                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                    LIKELION 11 Blog Project !
+                </h1>
+
+                <p class="mt-1.5 text-sm text-gray-500">
+                    Let's write a new blog post! 🎉
+                </p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+                <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+                    href="{% url 'new' %}">New Post</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="img_frame">
+    <img class="img1" src="{% static 'blog/img/dog.png' %}" alt="">
 </div>
+
+{% for blog in page_obj %}
+
+<a href="{%url 'detail' blog.id %}">
+    <article
+        class="rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl transition hover:shadow-sm">
+        <div class="rounded-[10px] bg-white p-4 !pt-20 sm:p-6">
+            <time class="block text-xs text-gray-500">
+                {{ blog.created_at }}
+            </time>
+
+            <h3 class="mt-0.5 text-xl font-bold text-gray-900">
+                {{ blog.title }}
+            </h3>
+
+            <h3 class="mt-0.5 text-lg font-medium text-gray-900">
+                {{ blog.summary }}
+            </h3>
+
+        </div>
+    </article>
+</a>
+{% endfor %}
+
+<div class="page">
+    {% if page_obj.has_previous %}
+    <a style="display: inline-block;"
+        class="block h-8 w-8 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+        href="?page=1">&laquo;</a>
+    <a style="display: inline-block;"
+        class="block h-8 w-14 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+        href="?page={{page_obj.previous_page_number}}">&lt;Prev</a>
+    {% endif %}
+
+    {% for page in page_obj.paginator.page_range %}
+    {% if page >= page_obj.number|add:-1 and page <= page_obj.number|add:1 %}
+        {% if page == page_obj.number %}
+            <a style="display: inline-block; text-decoration: underline;" 
+            class="block h-8 w-8 font-bold text-orange-700 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+            href="?page={{page}}">{{page}}</a>
+        {% else %}
+            <a style="display: inline-block;"
+            class="block h-8 w-8 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+            href="?page={{page}}">{{page}}</a>
+        {% endif %}
+    {% endif %}    
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <a style="display: inline-block;"
+        class="block h-8 w-14 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+        href="?page={{page_obj.next_page_number}}">Next&gt;</a>
+    <a style="display: inline-block;"
+        class="block h-8 w-8 rounded border border-y-emerald-50 border-x-cyan-900 text-center leading-8"
+        href="?page={{page_obj.paginator.num_pages}}">&raquo;</a>
+    {% endif %}
+</div>
+
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock content %}
