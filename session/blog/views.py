@@ -18,8 +18,7 @@ def detail(request, blog_id):
     comments = Comment.objects.filter(blog=blog)
     tags = blog.tag.all()
     likes = Like.objects.filter(blog=blog)
-    print(likes)
-
+    # likes = Like.objects.filter(blog_id=blog_id).values_list('user', flat=True)
     return render(request,'detail.html',{'blog':blog , 'comments':comments, 'tags' : tags, 'likes': likes})
 
 def new(request):
@@ -102,6 +101,9 @@ def create_comment(request, blog_id):
     return redirect('detail', blog_id)
 
 def new_comment(request, blog_id):
+
+    if request.user.is_anonymous:
+        return redirect('home')
     blog = get_object_or_404(Blog, pk=blog_id)
     return render(request, 'new_comment.html', { 'blog' : blog })
 

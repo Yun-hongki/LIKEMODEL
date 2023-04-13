@@ -54,7 +54,7 @@ Detail Homepage
         <div class="left">
             <form method="POST" action="{% url 'like' blog.id %}">
                 {% csrf_token %}
-                {% if request.user in like.user.username %}
+                <!-- {% if user.id in likes %}
                 <button type="submit" class="btn btn-white">
                     <i class="fas fa-heart fa-lg" style="color: #e6200a;"></i>
                 </button>
@@ -62,7 +62,17 @@ Detail Homepage
                 <button type="submit" class="btn btn-white">
                     <i class="fas fa-heart fa-lg" style="color: #898180;"></i>
                 </button>
-                {% endif %}
+                {% endif %}-->
+                <button type="submit" class="btn btn-white">
+                    <i class="fas fa-heart fa-lg"
+                       {% for like in likes %}
+                       {% if request.user == like.user %}
+                        style="color: #e6200a;"
+                       {% endif %}
+                       {% endfor %}
+                    ></i>
+                </button>
+
                 <span class="ml-1">좋아요 {{ likes|length }}개</span>
             </form>
         </div>      
@@ -76,9 +86,11 @@ Detail Homepage
 
   {% if comments %}
   {% for comment in comments %}
+  <div style="width: 60%; margin: 0 auto;">
     <p>{{comment.content}}</p>
     <p>{{comment.created_at}} 댓글 쓴사람 : {{ comment.author }}</p>
     <hr>
+  </div>
   {% endfor %}
   {% endif %}
 
