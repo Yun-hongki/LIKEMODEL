@@ -14,18 +14,41 @@ Blog Homepage
     <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center sm:justify-between">
             <div class="text-center sm:text-left">
+
+                {% if user.is_authenticated %}
+                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                    {{ user }} Blog Project !
+                </h1>
+                {% else %}
                 <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
                     LIKELION 11 Blog Project !
                 </h1>
+                {% endif %}
 
                 <p class="mt-1.5 text-sm text-gray-500">
                     Let's write a new blog post! 🎉
                 </p>
             </div>
-
-            <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
-                <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
-                    href="{% url 'new' %}">New Post</a>
+            <div style="display: flex !important;">
+                {% if user.is_authenticated %}
+                <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center mx-2">
+                    <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+                        href="{% url 'new' %}">New Post</a>
+                </div>
+                <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center mx-2">
+                    <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+                        href="{% url 'logout' %}">Logout</a>
+                </div>
+                {% else %}
+                <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center mx-2">
+                    <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+                        href="{% url 'signup' %}">Sing up</a>
+                </div>
+                <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center mx-2">
+                    <a class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+                        href="{% url 'login' %}">Login</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -48,7 +71,11 @@ Blog Homepage
 
             <h3 class="mt-0.5 text-xl font-bold text-gray-900">
                 {{ blog.title }}
-            </h3>
+            </h3>   
+
+            <h5 class="mt-0.5 text-xl font-bold text-gray-900">
+                {{ blog.author }}
+            </h5>
 
             <h3 class="mt-0.5 text-lg font-medium text-gray-900">
                 {{ blog.summary }}

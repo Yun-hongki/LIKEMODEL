@@ -13,6 +13,13 @@ Detail Homepage
     제목 : <input type="text" name="title" value=""/>
     본문 : <textarea name="content" id="" cols="30" rows="10"></textarea>
     사진 : <input type="file" name="image">
+    <label for="tags">Tages: </label>
+    <select name="tags" id="tags" multiple>
+        {% for tag in tags %}
+            <option value="{{ tag.id }}">{{ tag.name }}</option>
+        {% endfor %}
+    </select>
+
     <input type="submit" value="작성하기"/>
 </form>
 

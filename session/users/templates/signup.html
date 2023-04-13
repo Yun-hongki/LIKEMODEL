@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Sign up Homepage
+{% endblock title %}
+
+{% block content %}
+
+<h1>회원가입</h1>
+
+<form action="#" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    아이디 : <input type="text" name="username">
+    비밀번호 : <input type="password" name="password1">
+    비밀번호 확인 : <input type="password" name="password2">
+    이메일 : <input type="email" name="email">
+    닉네임 : <input type="text" name="nickname">
+    사진 : <input type="file" name="profile_image">
+    <input type="submit" class="btn btn-primary" value="Sign Up">
+</form>
+
+{% endblock content %}
